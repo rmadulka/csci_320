@@ -1,8 +1,9 @@
-import Commands.Register;
+package application;
+
+import commands.Register;
 import org.apache.commons.cli.*;
 
 import java.util.Arrays;
-import java.util.Properties;
 import java.util.Scanner;
 
 public class Main {
