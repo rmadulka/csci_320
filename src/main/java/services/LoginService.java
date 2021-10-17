@@ -3,18 +3,16 @@ package services;
 import application.DatabaseConnection;
 import application.LoginSession;
 import com.jcraft.jsch.Session;
-import org.postgresql.util.PSQLException;
 
 import java.sql.*;
-import java.util.Objects;
 import java.util.Properties;
 
-public class RegisterService {
-    public RegisterService() {
+public class LoginService {
+    public LoginService() {
 
     }
 
-    public static LoginSession register(String username, String password, String email, String firstName, String lastName) throws SQLException {
+    public static LoginSession login(String username, String password) throws SQLException {
         Connection conn = null;
         Session session = null;
 
@@ -25,23 +23,33 @@ public class RegisterService {
             System.out.println("Port Forwarded");
 
             // Do something with the database....
-            String query = "INSERT INTO tool_app.\"user\"(username, password, email, first_name, last_name, creation_date, last_access_date)\n" +
-                    "VALUES\n" +
-                    "    (?, ?, ?, ?, ?, current_date, current_date);";
+
+            String query = "SELECT * FROM tool_app.\"user\" WHERE tool_app.\"user\".username = (?) AND tool_app.\"user\".password = (?);";
+
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, password);
-            statement.setString(3, email);
-            statement.setString(4, firstName);
-            statement.setString(5, lastName);
 
-            boolean result = statement.execute();
-            System.out.println("Registration Successful");
+            ResultSet result = statement.executeQuery();
 
-            return new LoginSession(username);
+            if (!result.next()) {
+                System.err.println("Invalid Credentials");
+                return null;
+            }
 
-        } catch (PSQLException psqle) {
-            System.out.println(Objects.requireNonNull(psqle.getServerErrorMessage()).getMessage());
+            String updateLastAccessDate = "UPDATE tool_app.\"user\"\n" +
+                    "SET last_access_date = current_date\n" +
+                    "WHERE username = (?)";
+
+            PreparedStatement statementUpdate = conn.prepareStatement(updateLastAccessDate);
+            statementUpdate.setString(1, username);
+            statementUpdate.execute();
+
+
+            System.out.println("Successfully logged in");
+
+            LoginSession loginSession = new LoginSession(username);
+            return loginSession;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

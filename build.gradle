@@ -9,6 +9,8 @@ repositories {
 	mavenCentral()
 }
 dependencies {
+	compile 'org.postgresql:postgresql:42.2.24'
+	compile 'com.jcraft:jsch:0.1.55'
 	compile 'commons-cli:commons-cli:1.4'
 	compile 'junit:junit:4.12'
 }
