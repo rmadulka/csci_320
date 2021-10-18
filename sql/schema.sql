@@ -24,6 +24,7 @@ create table tool_app.tool (
 );
 
 create table tool_app.request (
+    request_id int primary key,
     username varchar(20) references tool_app.user (username),
     tool_barcode varchar(12) references tool_app.tool (barcode),
     status status not null,
@@ -32,7 +33,6 @@ create table tool_app.request (
     date_responded date,
     date_needed_return date,
     date_returned date,
-    primary key (username, tool_barcode)
 );
 
 create table tool_app.category (
