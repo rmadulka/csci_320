@@ -24,7 +24,7 @@ create table tool_app.tool (
 );
 
 create table tool_app.request (
-    request_id int primary key,
+    request_id serial primary key,
     username varchar(20) references tool_app.user (username),
     tool_barcode varchar(12) references tool_app.tool (barcode),
     status status not null,
@@ -36,7 +36,7 @@ create table tool_app.request (
 );
 
 create table tool_app.category (
-    category_id int primary key,
+    category_id serial primary key,
     category_name varchar(20) not null,
     category_created_user varchar(20) not null references tool_app.user (username)
 );

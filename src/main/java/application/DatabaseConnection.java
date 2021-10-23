@@ -44,36 +44,4 @@ public class DatabaseConnection {
         System.out.println("Database connection established");
         return conn;
     }
-
-    public static ResultSet runQuery(String query) throws SQLException {
-        Connection conn = null;
-        Session session = null;
-
-        try {
-
-            session = createSession();
-            int assigned_port = session.setPortForwardingL(LPORT, "localhost", RPORT);
-            conn = createConnection(assigned_port);
-            System.out.println("Port Forwarded");
-
-            // Do something with the database....
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-
-            return resultSet;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
-                conn.close();
-            }
-            if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
-                session.disconnect();
-            }
-        }
-        return null;
-    }
 }
