@@ -1,7 +1,7 @@
 create schema tool_app;
 
 create domain status as varchar(10)
-    CHECK ( value in ('Pending', 'Accepted', 'Denied') );
+    CHECK ( value in ('Pending', 'Accepted', 'Denied', 'Returned') );
 
 CREATE Table tool_app.user (
     username varchar(20) primary key,
@@ -26,7 +26,7 @@ create table tool_app.tool (
 create table tool_app.request (
     request_id serial primary key,
     username varchar(20) references tool_app.user (username),
-    tool_barcode varchar(12) references tool_app.tool (barcode),
+    tool_barcode varchar(12) references tool_app.tool (barcode) on delete cascade,
     status status not null,
     date_required date not null,
     duration int not null check (duration > 0),
