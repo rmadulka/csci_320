@@ -70,8 +70,6 @@ public class Main {
 				cmd = parser.parse(DeleteTool.deleteToolOptions(), arguments);
 			} else if (command.equals("updateTool")) {
 				cmd = parser.parse(UpdateTool.updateToolOptions(), arguments);
-			} else if (command.equals("viewTools")) {
-				//TODO
 			} else if (command.equals("createCategory")) {
 				cmd = parser.parse(CreateCategory.createCategoryOptions(), arguments);
 			} else if (command.equals("addToolToCategory")) {
@@ -86,6 +84,12 @@ public class Main {
 				//TODO front end
 			} else if (command.equals("denyRequest")) {
 				//TODO front end
+			} else if (command.equals("viewAvailable")) {
+				//TODO
+			} else if (command.equals("viewLent")) {
+				//TODO
+			} else if (command.equals("viewBorrowed")) {
+				//TODO
 			} else if (command.equals("return")) {
 				cmd = parser.parse(Return.returnOptions(), arguments);
 			}
