@@ -2,10 +2,7 @@ package application;
 
 import commands.*;
 import org.apache.commons.cli.*;
-import services.AddToolService;
-import services.LoginService;
-import services.RegisterService;
-import services.ViewCatalogService;
+import services.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,15 +64,41 @@ public class Main {
 				}
 
 			} else if (command.equals("deleteTool")) {
-				cmd = parser.parse(DeleteTool.deleteToolOptions(), arguments);
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(DeleteTool.deleteToolOptions(), arguments);
+					DeleteToolService.deleteTool(cmd.getOptionValue("barcode"),
+							loginSession.getUsername());
+				}
 			} else if (command.equals("updateTool")) {
-				cmd = parser.parse(UpdateTool.updateToolOptions(), arguments);
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+
+					cmd = parser.parse(UpdateTool.updateToolOptions(), arguments);
+					UpdateToolService.updateTool(cmd.getOptionValue("barcode"),
+							cmd.getOptionValue("name"),
+							cmd.getOptionValue("description"),
+							cmd.getOptionValue("purchaseDate"),
+							cmd.getOptionValue("purchasePrice"),
+							cmd.getOptionValue("shareable"),
+							loginSession.getUsername());
+				}
 			} else if (command.equals("createCategory")) {
 				cmd = parser.parse(CreateCategory.createCategoryOptions(), arguments);
 			} else if (command.equals("addToolToCategory")) {
 				cmd = parser.parse(AddToolToCategory.addToolToCategoryOptions(), arguments);
 			} else if (command.equals("search")) {
-				cmd = parser.parse(Search.searchOptions(), arguments);
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(Search.searchOptions(), arguments);
+					SearchToolService.searchTool(cmd.getOptionValue("method"),
+							cmd.getOptionValue("methodArgument"),
+							cmd.getOptionValue("sortByMethod"),
+							cmd.getOptionValue("sort"));
+				}
 			} else if (command.equals("request")) {
 				cmd = parser.parse(Request.requestOptions(), arguments);
 			} else if (command.equals("viewRequest")) {
