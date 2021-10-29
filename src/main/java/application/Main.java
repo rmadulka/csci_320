@@ -101,9 +101,19 @@ public class Main {
 				}
 			} else if (command.equals("request")) {
 				cmd = parser.parse(Request.requestOptions(), arguments);
-			} else if (command.equals("viewRequest")) {
-				//Options Not needed
-			} else if (command.equals("acceptRequest")) {
+			} else if (command.equals("viewIncomingRequests")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewIncomingRequestService.viewIncomingRequests(loginSession.getUsername());
+				}
+			} else if (command.equals("viewOutgoingRequests")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewOutgoingRequestService.viewOutgoingRequests(loginSession.getUsername());
+				}
+			}else if (command.equals("acceptRequest")) {
 				//TODO front end
 			} else if (command.equals("denyRequest")) {
 				//TODO front end
