@@ -133,6 +133,14 @@ public class Main {
 
 			} else if (command.equals("denyRequest")) {
 				//TODO front end
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(DenyRequest.denyRequestOptions(), arguments);
+					DenyRequestService.denyRequest(loginSession.getUsername(),
+							cmd.getOptionValue("username"),
+							cmd.getOptionValue("barcode"));
+				}
 			} else if (command.equals("viewAvailable")) {
 				//TODO
 			} else if (command.equals("viewLent")) {
