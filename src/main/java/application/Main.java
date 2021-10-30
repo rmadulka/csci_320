@@ -153,9 +153,23 @@ public class Main {
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				} else {
-					ViewAvailableService.viewAvailable(loginSession.getUsername());
+					ViewAvailableService.viewAvailable();
+				}
+			} else if(command.equals("viewBorrowed")){
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewBorrowedService.viewBorrowed();
+				}
+			} else if(command.equals("viewLent")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewLentService.viewLent();
 				}
 			}
+
+
 
 			commands = getInput(scanner);
 			System.out.println(Arrays.toString(commands));

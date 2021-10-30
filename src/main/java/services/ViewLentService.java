@@ -8,15 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ViewAvailableService {
+public class ViewLentService {
 
-    private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-12s|%-2s";
+    private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-12s";
 
-    public ViewAvailableService() {
+    public ViewLentService() {
 
     }
 
-    public static void viewAvailable() throws SQLException {
+    public static void viewLent() throws SQLException {
         Connection conn = null;
         Session session = null;
 
@@ -27,28 +27,28 @@ public class ViewAvailableService {
             System.out.println("Port Forwarded");
 
             // Do something with the database....
-            String query = "select barcode, name, description, purchase_date, purchase_price, shareable from (select * from tool_app.tool order by name asc) as x where shareable = true";
-
+            String query = "select * from (select barcode, name, description, username, date_responded, status from " +
+                    "(select * from tool_app.tool tool inner join tool_app.request request on request.tool_barcode = " +
+                    "tool.barcode) as x where status = 'Accepted') as y order by date_responded asc";
             PreparedStatement statement = conn.prepareStatement(query);
 
             ResultSet result = statement.executeQuery();
 
             if (!result.next()) {
-                System.out.println("No available tools");
+                System.out.println("No lent tools");
             } else {
-                System.out.format(FORMAT, "barcode", "name", "description", "purchaseDate", "purchasePrice", "shareable");
+                System.out.format(FORMAT, "barcode", "name", "description", "username", "date_responded");
                 System.out.println();
                 do {
                     String barcode = result.getString("barcode");
                     String name = result.getString("name");
                     String description = result.getString("description");
-                    String purchaseDate = result.getString("purchase_date");
-                    String purchasePrice = result.getString("purchase_price");
-                    String shareable = result.getString("shareable");
+                    String username = result.getString("username");
+                    String date_responded = result.getString("date_responded");
 
 
 
-                    System.out.format(FORMAT, barcode, name, description, purchaseDate, purchasePrice, shareable);
+                    System.out.format(FORMAT, barcode, name, description, username, date_responded);
                     System.out.println();
                 } while (result.next());
             }

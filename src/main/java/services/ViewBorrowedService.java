@@ -8,15 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ViewAvailableService {
+public class ViewBorrowedService {
 
     private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-12s|%-2s";
 
-    public ViewAvailableService() {
+    public ViewBorrowedService() {
 
     }
 
-    public static void viewAvailable() throws SQLException {
+    public static void viewBorrowed() throws SQLException {
         Connection conn = null;
         Session session = null;
 
