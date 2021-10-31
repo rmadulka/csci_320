@@ -54,6 +54,11 @@ public class AcceptRequestService {
 
                 boolean result2 = statement2.execute();
 
+                String query3 = "update tool_app.tool set shareable = false where barcode = (?)";
+                PreparedStatement statement3 = conn.prepareStatement(query3);
+                statement3.setString(1, barcode);
+                boolean result3 = statement3.execute();
+
                 System.out.println("Request Accepted");
 
             }
