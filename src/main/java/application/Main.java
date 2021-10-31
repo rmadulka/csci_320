@@ -45,7 +45,8 @@ public class Main {
 			} else if (command.equals("viewCatalog")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
-				} else {
+				}
+				else {
 					ViewCatalogService.viewCatalog(loginSession.getUsername());
 				}
 			} else if (command.equals("addTool")) {
@@ -75,7 +76,6 @@ public class Main {
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				} else {
-
 					cmd = parser.parse(UpdateTool.updateToolOptions(), arguments);
 					UpdateToolService.updateTool(cmd.getOptionValue("barcode"),
 							cmd.getOptionValue("name"),
@@ -114,7 +114,15 @@ public class Main {
 							cmd.getOptionValue("sort"));
 				}
 			} else if (command.equals("request")) {
-				cmd = parser.parse(Request.requestOptions(), arguments);
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(Request.requestOptions(), arguments);
+					RequestService.request(loginSession.getUsername(),
+							cmd.getOptionValue("barcode"),
+							cmd.getOptionValue("dateRequired"),
+							cmd.getOptionValue("duration"));
+				}
 			} else if (command.equals("viewIncomingRequests")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
@@ -128,18 +136,54 @@ public class Main {
 					ViewOutgoingRequestService.viewOutgoingRequests(loginSession.getUsername());
 				}
 			}else if (command.equals("acceptRequest")) {
-				//TODO front end
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(AcceptRequest.acceptRequestOptions(), arguments);
+					AcceptRequestService.acceptRequest(loginSession.getUsername(),
+							cmd.getOptionValue("username"),
+							cmd.getOptionValue("barcode"),
+							cmd.getOptionValue("dateNeededReturned"));
+				}
+
 			} else if (command.equals("denyRequest")) {
 				//TODO front end
-			} else if (command.equals("viewAvailable")) {
-				//TODO
-			} else if (command.equals("viewLent")) {
-				//TODO
-			} else if (command.equals("viewBorrowed")) {
-				//TODO
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(DenyRequest.denyRequestOptions(), arguments);
+					DenyRequestService.denyRequest(loginSession.getUsername(),
+							cmd.getOptionValue("username"),
+							cmd.getOptionValue("barcode"));
+				}
 			} else if (command.equals("return")) {
-				cmd = parser.parse(Return.returnOptions(), arguments);
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(Return.returnOptions(), arguments);
+					//TODO
+				}
+			} else if(command.equals("viewAvailable")){
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewAvailableService.viewAvailable();
+				}
+			} else if(command.equals("viewBorrowed")){
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewBorrowedService.viewBorrowed();
+				}
+			} else if(command.equals("viewLent")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewLentService.viewLent();
+				}
 			}
+
+
 
 			commands = getInput(scanner);
 			System.out.println(Arrays.toString(commands));
