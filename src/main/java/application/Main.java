@@ -85,10 +85,24 @@ public class Main {
 							cmd.getOptionValue("shareable"),
 							loginSession.getUsername());
 				}
-			} else if (command.equals("createCategory")) {
-				cmd = parser.parse(CreateCategory.createCategoryOptions(), arguments);
+			}else if (command.equals("createCategory")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				}
+				else {
+					cmd = parser.parse(CreateCategory.createCategoryOptions(), arguments);
+					CreateCategoryService.createCategory(cmd.getOptionValue("name"),
+							loginSession.getUsername());
+				}
 			} else if (command.equals("addToolToCategory")) {
-				cmd = parser.parse(AddToolToCategory.addToolToCategoryOptions(), arguments);
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				}
+				else {
+					cmd = parser.parse(AddToolToCategory.addToolToCategoryOptions(), arguments);
+					AddToolToCategoryService.addToolToCategory(cmd.getOptionValue("category"),
+							cmd.getOptionValue("barcode"));
+				}
 			} else if (command.equals("search")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
