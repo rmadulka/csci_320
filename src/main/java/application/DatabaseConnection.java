@@ -13,8 +13,8 @@ public class DatabaseConnection {
     private static String DRIVER = "org.postgresql.Driver";
 
     private static String DB_NAME = "p320_21"; //change to your database name
-    private static String USERNAME = "jec5704"; //change to your username
-    private static String PASSWORD = "Nianjecu2301-"; //change to your password
+    private static String USERNAME = ""; //change to your username
+    private static String PASSWORD = ""; //change to your password
 
     public static Session createSession () throws JSchException {
 

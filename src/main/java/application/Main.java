@@ -173,13 +173,13 @@ public class Main {
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				} else {
-					ViewBorrowedService.viewBorrowed();
+					ViewBorrowedService.viewBorrowed(loginSession.getUsername());
 				}
 			} else if(command.equals("viewLent")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				} else {
-					ViewLentService.viewLent();
+					ViewLentService.viewLent(loginSession.getUsername());
 				}
 			}
 

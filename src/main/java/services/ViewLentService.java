@@ -18,7 +18,7 @@ public class ViewLentService {
 
     }
 
-    public static void viewLent() throws SQLException {
+    public static void viewLent(String usernameArg) throws SQLException {
         Connection conn = null;
         Session session = null;
 
@@ -29,11 +29,11 @@ public class ViewLentService {
             System.out.println("Port Forwarded");
 
             // Do something with the database....
-            String query = "select * from (select barcode, name, description, username, date_responded, date_needed_return, " +
+            String query = "select * from (select barcode, name, description, username,owner, date_responded, date_needed_return, " +
                     "status from (select * from tool_app.tool tool inner join tool_app.request request on request.tool_barcode = " +
-                    "tool.barcode) as x where status = 'Accepted') as y order by date_responded asc";
+                    "tool.barcode) as x where status = 'Accepted' and owner = (?)) as y order by date_responded asc";
             PreparedStatement statement = conn.prepareStatement(query);
-
+            statement.setString(1, usernameArg);
             ResultSet result = statement.executeQuery();
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -43,7 +43,7 @@ public class ViewLentService {
             if (!result.next()) {
                 System.out.println("No lent tools");
             } else {
-                System.out.format(FORMAT, "barcode", "name", "description", "username", "lend date", "return by date");
+                System.out.format(FORMAT, "barcode", "name", "description", "borrowed by", "lend date", "return by date");
                 System.out.println();
                 do {
                     String barcode = result.getString("barcode");
