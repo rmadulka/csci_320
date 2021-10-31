@@ -161,7 +161,8 @@ public class Main {
 					System.out.println("Please Login");
 				} else {
 					cmd = parser.parse(Return.returnOptions(), arguments);
-					//TODO
+					ReturnService.returnTool(loginSession.getUsername(),
+							cmd.getOptionValue("barcode"));
 				}
 			} else if(command.equals("viewAvailable")){
 				if (loginSession == null) {

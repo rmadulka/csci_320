@@ -42,7 +42,7 @@ public class ViewBorrowedService {
             String currDate = dtf.format(now);      //todays date, for determining if a tool is overdue
 
             if (!result.next()) {
-                System.out.println("No lent tools");
+                System.out.println("No borrowed tools");
             } else {
                 System.out.format(FORMAT, "barcode", "name", "description", "owner", "lend date", "return by date");
                 System.out.println();
