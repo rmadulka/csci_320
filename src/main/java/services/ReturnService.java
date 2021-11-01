@@ -8,6 +8,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 public class ReturnService {
 
@@ -15,9 +16,20 @@ public class ReturnService {
         Connection conn = null;
         Session session = null;
         try {
-            session = DatabaseConnection.createSession();
-            int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
-            conn = DatabaseConnection.createConnection(assigned_port);
+//            session = DatabaseConnection.createSession();
+//            int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
+//            conn = DatabaseConnection.createConnection(assigned_port);
+
+
+            String url = "jdbc:postgresql://localhost:"+ "5432" + "/" + "postgres";
+            System.out.println("database Url: " + url);
+            Properties props = new Properties();
+            props.put("user", "postgres");
+            props.put("password", "password");
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, props);
+            System.out.println("Database connection established");
+
             System.out.println("Port Forwarded");
 
             String query = "select * from tool_app.request where username = (?) and tool_barcode =(?)";

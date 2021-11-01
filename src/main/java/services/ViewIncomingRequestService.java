@@ -3,10 +3,8 @@ package services;
 import application.DatabaseConnection;
 import com.jcraft.jsch.Session;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Properties;
 
 
 public class ViewIncomingRequestService {
@@ -22,9 +20,19 @@ public class ViewIncomingRequestService {
         Session session = null;
 
         try {
-            session = DatabaseConnection.createSession();
-            int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
-            conn = DatabaseConnection.createConnection(assigned_port);
+//            session = DatabaseConnection.createSession();
+//            int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
+//            conn = DatabaseConnection.createConnection(assigned_port);
+
+            String url = "jdbc:postgresql://localhost:"+ "5432" + "/" + "postgres";
+            System.out.println("database Url: " + url);
+            Properties props = new Properties();
+            props.put("user", "postgres");
+            props.put("password", "password");
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, props);
+            System.out.println("Database connection established");
+
             System.out.println("Port Forwarded");
 
             // Do something with the database....
