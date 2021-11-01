@@ -94,7 +94,18 @@ public class Main {
 					CreateCategoryService.createCategory(cmd.getOptionValue("name"),
 							loginSession.getUsername());
 				}
-			} else if (command.equals("addToolToCategory")) {
+			} else if (command.equals("updateCategoryName")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				}
+				else {
+					cmd = parser.parse(UpdateCategoryName.updateCategoryNameOptions(), arguments);
+					UpdateCategoryNameService.updateCategoryName(cmd.getOptionValue("categoryID"),
+							cmd.getOptionValue("categoryName"));
+				}
+			}
+
+			else if (command.equals("addToolToCategory")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				}
@@ -103,6 +114,15 @@ public class Main {
 					AddToolToCategoryService.addToolToCategory(cmd.getOptionValue("category"),
 							cmd.getOptionValue("barcode"));
 				}
+			} else if (command.equals("removeToolFromCategory")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(RemoveToolFromCategory.removeToolFromCategoryOptions(), arguments);
+					RemoveToolFromCategoryService.removeToolFromCategory(cmd.getOptionValue("category"),
+							cmd.getOptionValue("barcode"));
+				}
+
 			} else if (command.equals("search")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
@@ -182,6 +202,9 @@ public class Main {
 				} else {
 					ViewLentService.viewLent(loginSession.getUsername());
 				}
+			} else if(command.equals("logout")) {
+				loginSession = null;
+				System.out.println("logged out");
 			}
 
 
