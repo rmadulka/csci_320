@@ -29,9 +29,10 @@ public class ViewBorrowedService {
             conn = DatabaseConnection.createConnection(assigned_port);
 
             // Do something with the database....
-            String query = "select * from (select barcode, name, description, username, owner, date_responded, date_needed_return, " +
-                    "status, request_id from (select * from tool_app.tool tool inner join tool_app.request request on request.tool_barcode = " +
-                    "tool.barcode) as x where status = 'Accepted' and username = (?)) as y order by date_responded asc";
+            String query = "select barcode, name, description, username, owner, date_responded, date_needed_return, request_id\n" +
+                    "from tool_app.tool tool\n" +
+                    "inner join tool_app.request request on request.tool_barcode = tool.barcode\n" +
+                    "where status = 'Accepted' and username = (?) order by date_responded asc;";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, usernameArg);
             ResultSet result = statement.executeQuery();
