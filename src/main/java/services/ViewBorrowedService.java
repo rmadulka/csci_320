@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ViewBorrowedService {
 
-    private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-12s|%-15s";
+    private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-12s|%-15s|%-12s";
 
     public ViewBorrowedService() {
 
@@ -27,11 +27,10 @@ public class ViewBorrowedService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
             String query = "select * from (select barcode, name, description, username, owner, date_responded, date_needed_return, " +
-                    "status from (select * from tool_app.tool tool inner join tool_app.request request on request.tool_barcode = " +
+                    "status, request_id from (select * from tool_app.tool tool inner join tool_app.request request on request.tool_barcode = " +
                     "tool.barcode) as x where status = 'Accepted' and username = (?)) as y order by date_responded asc";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, usernameArg);
@@ -44,7 +43,7 @@ public class ViewBorrowedService {
             if (!result.next()) {
                 System.out.println("No borrowed tools");
             } else {
-                System.out.format(FORMAT, "barcode", "name", "description", "owner", "lend date", "return by date");
+                System.out.format(FORMAT, "barcode", "name", "description", "owner", "lend date", "return by date", "Request ID");
                 System.out.println();
                 do {
                     String barcode = result.getString("barcode");
@@ -53,10 +52,11 @@ public class ViewBorrowedService {
                     String username = result.getString("owner");
                     String date_responded = result.getString("date_responded");
                     String date_needed_return = result.getString("date_needed_return");
+                    String requestID = result.getString("request_id");
 
 
 
-                    System.out.format(FORMAT, barcode, name, description, username, date_responded, date_needed_return);
+                    System.out.format(FORMAT, barcode, name, description, username, date_responded, date_needed_return, requestID);
                     if(overdue(currDate, date_needed_return)){
                         System.out.print("   --OVERDUE--  ");
                     }
@@ -68,11 +68,9 @@ public class ViewBorrowedService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

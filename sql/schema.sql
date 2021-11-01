@@ -43,6 +43,6 @@ create table tool_app.category (
 
 create table tool_app.category_tool (
     category_id int references tool_app.category (category_id),
-    tool_barcode varchar(12) references tool_app.tool (barcode),
+    tool_barcode varchar(12) references tool_app.tool (barcode) on delete cascade,
     primary key (category_id, tool_barcode)
 );

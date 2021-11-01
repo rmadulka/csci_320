@@ -38,11 +38,9 @@ public class CreateCategoryService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

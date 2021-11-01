@@ -25,13 +25,12 @@ public class ViewOutgoingRequestService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
 
             String query = "select * from tool_app.request\n" +
                     "join tool_app.tool on request.tool_barcode = tool.barcode\n" +
-                    "where username = ?";
+                    "where username = ? order by request_id";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
@@ -66,11 +65,9 @@ public class ViewOutgoingRequestService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

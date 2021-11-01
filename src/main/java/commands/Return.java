@@ -8,13 +8,13 @@ public class Return {
 
         Options returnOptions = new Options();
 
-        Option barcode = Option.builder("b")
-                .longOpt("barcode")
-                .argName("barcode")
+        Option barcode = Option.builder("r")
+                .longOpt("requestID")
+                .argName("requestID")
                 .hasArg()
                 .required()
                 .valueSeparator()
-                .desc("tool barcode")
+                .desc("request ID")
                 .build();
         returnOptions.addOption(barcode);
 

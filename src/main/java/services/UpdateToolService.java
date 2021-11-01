@@ -25,7 +25,6 @@ public class UpdateToolService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
 
@@ -59,11 +58,7 @@ public class UpdateToolService {
             }
 
 
-            System.out.println(buildClauses);
-
             String newBuildClauses = String.join(",", buildClauses);
-
-            System.out.println(newBuildClauses);
 
             String query = "update tool_app.tool\n" +
                     "set " + newBuildClauses +
@@ -112,11 +107,9 @@ public class UpdateToolService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

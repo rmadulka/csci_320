@@ -18,7 +18,6 @@ public class AddToolToCategoryService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             String query="INSERT INTO tool_app.category_tool(category_id, tool_barcode) VALUES (?, ?);";
             PreparedStatement statement = conn.prepareStatement(query);
@@ -35,11 +34,9 @@ public class AddToolToCategoryService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

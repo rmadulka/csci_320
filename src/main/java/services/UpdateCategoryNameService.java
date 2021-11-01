@@ -17,7 +17,6 @@ public class UpdateCategoryNameService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
 
@@ -27,12 +26,12 @@ public class UpdateCategoryNameService {
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, categoryName);
-            statement.setString(2, categoryID);
+            statement.setInt(2, Integer.parseInt(categoryID));
 
             int result = statement.executeUpdate();
 
-            if (result > 1 ) {
-                System.out.println("Successfully added category");
+            if (result >= 1 ) {
+                System.out.println("Category name updated");
             } else {
                 System.out.println("Category name was not updated");
             }
@@ -44,11 +43,9 @@ public class UpdateCategoryNameService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

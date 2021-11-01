@@ -14,7 +14,7 @@ public class DenyRequestService {
 
 
     }
-    public static void denyRequest(String username, String incominguser, String barcode) throws SQLException {
+    public static void denyRequest(String username, String requestID) throws SQLException {
         Connection conn = null;
         Session session = null;
 
@@ -22,11 +22,10 @@ public class DenyRequestService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             String query = "select * from tool_app.request\n" +
                     "join tool_app.tool on request.tool_barcode = tool.barcode\n" +
-                    "where owner = ?;";
+                    "where owner = ? AND status = 'Pending';";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
@@ -37,15 +36,13 @@ public class DenyRequestService {
                 System.out.println("User has no requests");
             }
             else{
-                String query2 = "update tool_app.request\n "  + "set status = ?, date_responded = current_date" + " where username = ? and tool_barcode = ?;";
+                String query2 = "update tool_app.request\n "  + "set status = ?, date_responded = current_date" + " where request_id = (?);";
 
                 PreparedStatement statement2 = conn.prepareStatement(query2);
 
                 statement2.setString(1, "Denied");
 
-                statement2.setString(2, incominguser);
-
-                statement2.setString(3, barcode);
+                statement2.setInt(2, Integer.parseInt(requestID));
 
                 boolean result2 = statement2.execute();
 
@@ -57,11 +54,9 @@ public class DenyRequestService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

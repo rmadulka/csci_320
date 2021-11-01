@@ -24,7 +24,6 @@ public class ViewAvailableService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
             String query = "select barcode, name, description, purchase_date, purchase_price, shareable from (select * from tool_app.tool order by name asc) as x where shareable = true";
@@ -57,11 +56,9 @@ public class ViewAvailableService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

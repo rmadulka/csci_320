@@ -100,8 +100,8 @@ public class Main {
 				}
 				else {
 					cmd = parser.parse(UpdateCategoryName.updateCategoryNameOptions(), arguments);
-					UpdateCategoryNameService.updateCategoryName(cmd.getOptionValue("categoryID"),
-							cmd.getOptionValue("categoryName"));
+					UpdateCategoryNameService.updateCategoryName(cmd.getOptionValue("categoryName"),
+							cmd.getOptionValue("categoryID"));
 				}
 			}
 
@@ -161,28 +161,24 @@ public class Main {
 				} else {
 					cmd = parser.parse(AcceptRequest.acceptRequestOptions(), arguments);
 					AcceptRequestService.acceptRequest(loginSession.getUsername(),
-							cmd.getOptionValue("username"),
-							cmd.getOptionValue("barcode"),
+							cmd.getOptionValue("requestID"),
 							cmd.getOptionValue("dateNeededReturned"));
 				}
 
 			} else if (command.equals("denyRequest")) {
-				//TODO front end
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				} else {
 					cmd = parser.parse(DenyRequest.denyRequestOptions(), arguments);
 					DenyRequestService.denyRequest(loginSession.getUsername(),
-							cmd.getOptionValue("username"),
-							cmd.getOptionValue("barcode"));
+							cmd.getOptionValue("requestID"));
 				}
 			} else if (command.equals("return")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
 				} else {
 					cmd = parser.parse(Return.returnOptions(), arguments);
-					ReturnService.returnTool(loginSession.getUsername(),
-							cmd.getOptionValue("barcode"));
+					ReturnService.returnTool(cmd.getOptionValue("requestID"), loginSession.getUsername());
 				}
 			} else if(command.equals("viewAvailable")){
 				if (loginSession == null) {
@@ -210,7 +206,6 @@ public class Main {
 
 
 			commands = getInput(scanner);
-			System.out.println(Arrays.toString(commands));
 			command = commands[0];
 			arguments = Arrays.copyOfRange(commands, 1, commands.length);
 		}

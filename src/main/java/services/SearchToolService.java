@@ -27,13 +27,12 @@ public class SearchToolService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
 
             Set<String> validMethods = new HashSet<>(Arrays.asList("barcode", "name", "category"));
-            Set<String> validSortByArguments = new HashSet<>(Arrays.asList("name", "category"));
-            Set<String> validSortByMethods = new HashSet<>(Arrays.asList("asc", "desc"));
+            Set<String> validSortByMethods = new HashSet<>(Arrays.asList("name", "category"));
+            Set<String> validSortByArguments = new HashSet<>(Arrays.asList("asc", "desc"));
 
             String orderByClause = null;
             String orderByArgumentClause = null;
@@ -44,16 +43,18 @@ public class SearchToolService {
                 searchMethod = "name";
             }
 
-            if (!validSortByMethods.contains(sortByMethod)) {
+            if (!validSortByArguments.contains(sortByArgument)) {
                 System.out.println("invalid sort by... defaulting to 'asc'");
                 orderByClause = "ASC";
             } else {
-                orderByClause = "DESC";
+                orderByClause = sortByArgument;
             }
 
-            if (!validSortByArguments.contains(sortByArgument)) {
+            if (!validSortByMethods.contains(sortByMethod)) {
                 System.out.println("invalid sort by argument... defaulting to to sorting by 'name'");
                 orderByArgumentClause = "name";
+            } else {
+                orderByArgumentClause = sortByMethod;
             }
 
             if (searchMethod.equals("category")) {
@@ -106,11 +107,9 @@ public class SearchToolService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

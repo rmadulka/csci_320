@@ -8,25 +8,16 @@ public class AcceptRequest {
 
         Options acceptRequestOptions = new Options();
 
-        Option username = Option.builder("u")
-                .longOpt("username")
-                .argName("username")
+        Option requestID = Option.builder("r")
+                .longOpt("requestID")
+                .argName("requestID")
                 .hasArg()
                 .required()
                 .valueSeparator()
-                .desc("username")
+                .desc("request ID")
                 .build();
-        acceptRequestOptions.addOption(username);
+        acceptRequestOptions.addOption(requestID);
 
-        Option barcode = Option.builder("b")
-                .longOpt("barcode")
-                .argName("barcode")
-                .hasArg()
-                .required()
-                .valueSeparator()
-                .desc("tool barcode")
-                .build();
-        acceptRequestOptions.addOption(barcode);
 
         Option dateNeededReturned = Option.builder("r")
                 .longOpt("dateNeededReturned")

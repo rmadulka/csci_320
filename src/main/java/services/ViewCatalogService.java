@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class ViewCatalogService {
 
-    private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-12s|%-2s";
+    private static String FORMAT = "%-12s|%-50s|%-50s|%-12s|%-15s|%-12s|%-20s";
 
     public ViewCatalogService() {
 
@@ -26,11 +26,14 @@ public class ViewCatalogService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
 
-            String query = "select barcode, name, description, purchase_date, purchase_price, shareable from tool_app.tool where owner = (?);";
+            String query = "select barcode, name, description, purchase_date, purchase_price, shareable, category_name\n" +
+                    "from tool_app.tool\n" +
+                    "left join tool_app.category_tool ct on tool.barcode = ct.tool_barcode\n" +
+                    "left join tool_app.category c on ct.category_id = c.category_id\n" +
+                    "where owner = (?);";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
@@ -40,7 +43,7 @@ public class ViewCatalogService {
             if (!result.next()) {
                 System.out.println("User owns no tools");
             } else {
-                System.out.format(FORMAT, "barcode", "name", "description", "purchaseDate", "purchasePrice", "shareable");
+                System.out.format(FORMAT, "barcode", "name", "description", "purchaseDate", "purchasePrice", "shareable", "category");
                 System.out.println();
                 do {
                     String barcode = result.getString("barcode");
@@ -49,10 +52,11 @@ public class ViewCatalogService {
                     String purchaseDate = result.getString("purchase_date");
                     String purchasePrice = result.getString("purchase_price");
                     String shareable = result.getString("shareable");
+                    String category = result.getString("category_name");
 
 
 
-                    System.out.format(FORMAT, barcode, name, description, purchaseDate, purchasePrice, shareable);
+                    System.out.format(FORMAT, barcode, name, description, purchaseDate, purchasePrice, shareable, category);
                     System.out.println();
                 } while (result.next());
             }
@@ -61,11 +65,9 @@ public class ViewCatalogService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

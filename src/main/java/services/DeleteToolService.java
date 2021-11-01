@@ -25,11 +25,10 @@ public class DeleteToolService {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
             // Do something with the database....
 
-            String query = "delete from tool_app.tool where barcode = ? AND owner = ? ;";
+            String query = "delete from tool_app.tool where barcode = ? AND owner = ? AND shareable = TRUE;";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, barcode);
@@ -40,7 +39,7 @@ public class DeleteToolService {
             if (result > 0) {
                 System.out.println("Successfully deleted tool " + barcode);
             } else {
-                System.out.println("Deletion unsuccessful, make sure you are the owner of the tool");
+                System.out.println("Deletion unsuccessful, make sure you are the owner of the tool and that the tool is not being borrowed");
             }
 
 
@@ -51,11 +50,9 @@ public class DeleteToolService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }

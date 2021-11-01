@@ -8,25 +8,15 @@ public class DenyRequest {
 
         Options denyRequestOptions = new Options();
 
-        Option username = Option.builder("u")
-                .longOpt("username")
-                .argName("username")
+        Option requestID = Option.builder("r")
+                .longOpt("requestID")
+                .argName("requestID")
                 .hasArg()
                 .required()
                 .valueSeparator()
-                .desc("username")
+                .desc("request ID")
                 .build();
-        denyRequestOptions.addOption(username);
-
-        Option barcode = Option.builder("b")
-                .longOpt("barcode")
-                .argName("barcode")
-                .hasArg()
-                .required()
-                .valueSeparator()
-                .desc("tool barcode")
-                .build();
-        denyRequestOptions.addOption(barcode);
+        denyRequestOptions.addOption(requestID);
 
         return denyRequestOptions;
     }

@@ -11,29 +11,29 @@ import java.time.format.DateTimeFormatter;
 
 public class ReturnService {
 
-    public static void returnTool(String username, String barcode) throws SQLException {
+    public static void returnTool(String requestID, String username) throws SQLException {
         Connection conn = null;
         Session session = null;
         try {
             session = DatabaseConnection.createSession();
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
-            System.out.println("Port Forwarded");
 
-            String query = "select * from tool_app.request where username = (?) and tool_barcode =(?)";
+            String query = "select * from tool_app.request where request_id = (?) AND username = (?) AND status = 'Accepted'";
 
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, username);
-            statement.setString(2, barcode);
+            statement.setInt(1, Integer.parseInt(requestID));
+            statement.setString(2, username);
+
 
             ResultSet result = statement.executeQuery();
 
             if(!result.next()){
-                System.out.println("User did not borrow this item");
+                System.out.println("User cannot return this request");
             }
             else{
                 String query2 = "update tool_app.request set date_returned = (?), status = (?) " +
-                        "where username = (?) and tool_barcode  = (?)";
+                        "where request_id = (?)";
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDateTime now = LocalDateTime.now();
@@ -44,13 +44,12 @@ public class ReturnService {
                 PreparedStatement statement2 = conn.prepareStatement(query2);
                 statement2.setDate(1, sql_date_needed_returned);
                 statement2.setString(2, "Returned");
-                statement2.setString(3, username);
-                statement2.setString(4, barcode);
+                statement2.setInt(3, Integer.parseInt(requestID));
                 boolean result2 = statement2.execute();
 
-                String query3 = "update tool_app.tool set shareable = true where barcode = (?)";
+                String query3 = "update tool_app.tool set shareable = true from tool_app.request where request.tool_barcode = tool.barcode AND request.request_id = (?)";
                 PreparedStatement statement3 = conn.prepareStatement(query3);
-                statement3.setString(1, barcode);
+                statement3.setInt(1, Integer.parseInt(requestID));
                 boolean result3 = statement3.execute();
 
                 System.out.println("Tool has been returned");
@@ -61,11 +60,9 @@ public class ReturnService {
             e.printStackTrace();
         } finally {
             if (conn != null && !conn.isClosed()) {
-                System.out.println("Closing Database Connection");
                 conn.close();
             }
             if (session != null && session.isConnected()) {
-                System.out.println("Closing SSH Connection");
                 session.disconnect();
             }
         }
