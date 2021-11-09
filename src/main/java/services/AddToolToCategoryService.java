@@ -19,7 +19,7 @@ public class AddToolToCategoryService {
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
 
-            String query="INSERT INTO tool_app.category_tool(category_id, tool_barcode) VALUES (?, ?);";
+            String query="INSERT INTO category_tool(category_id, tool_barcode) VALUES (?, ?);";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, Integer.parseInt(categoryId));
             statement.setString(2, barcode);

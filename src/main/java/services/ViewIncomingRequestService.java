@@ -28,8 +28,8 @@ public class ViewIncomingRequestService {
 
             // Do something with the database....
 
-            String query = "select * from tool_app.request\n" +
-                    "join tool_app.tool on request.tool_barcode = tool.barcode\n" +
+            String query = "select * from request\n" +
+                    "join tool on request.tool_barcode = tool.barcode\n" +
                     "where owner = ? order by request_id;";
 
             PreparedStatement statement = conn.prepareStatement(query);

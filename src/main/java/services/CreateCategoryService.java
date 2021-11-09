@@ -22,7 +22,7 @@ public class CreateCategoryService {
 
             // Do something with the database....
 
-            String query = "INSERT INTO tool_app.category(category_name, category_created_user) VALUES (?, ?);";
+            String query = "INSERT INTO category(category_name, category_created_user) VALUES (?, ?);";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, categoryName);

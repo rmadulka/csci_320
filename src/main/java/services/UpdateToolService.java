@@ -60,7 +60,7 @@ public class UpdateToolService {
 
             String newBuildClauses = String.join(",", buildClauses);
 
-            String query = "update tool_app.tool\n" +
+            String query = "update tool\n" +
                     "set " + newBuildClauses +
                     " where barcode = ? AND owner = ?;";
 

@@ -19,7 +19,7 @@ public class RemoveToolFromCategoryService {
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
 
-            String query = "delete from tool_app.category_tool where category_id = ? AND tool_barcode = ? ;";
+            String query = "delete from category_tool where category_id = ? AND tool_barcode = ? ;";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, Integer.parseInt(categoryId));

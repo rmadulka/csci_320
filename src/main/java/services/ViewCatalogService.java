@@ -30,9 +30,9 @@ public class ViewCatalogService {
             // Do something with the database....
 
             String query = "select barcode, name, description, purchase_date, purchase_price, shareable, category_name\n" +
-                    "from tool_app.tool\n" +
-                    "left join tool_app.category_tool ct on tool.barcode = ct.tool_barcode\n" +
-                    "left join tool_app.category c on ct.category_id = c.category_id\n" +
+                    "from tool\n" +
+                    "left join category_tool ct on tool.barcode = ct.tool_barcode\n" +
+                    "left join category c on ct.category_id = c.category_id\n" +
                     "where owner = (?);";
 
             PreparedStatement statement = conn.prepareStatement(query);

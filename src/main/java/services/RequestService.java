@@ -26,7 +26,7 @@ public class RequestService {
 
 
             //check to see if item being requested is shareable
-            String checkquery = "SELECT * FROM tool_app.\"tool\" WHERE tool_app.\"tool\".barcode = (?) AND tool_app.\"tool\".shareable = (?);";
+            String checkquery = "SELECT * FROM \"tool\" WHERE \"tool\".barcode = (?) AND \"tool\".shareable = (?);";
 
             PreparedStatement checkstatement = conn.prepareStatement(checkquery);
 
@@ -42,7 +42,7 @@ public class RequestService {
 
             } else {
 
-                String query = "INSERT INTO tool_app.request(username, tool_barcode, status, date_required, duration) VALUES (?, ?, ?, ?, ?);";
+                String query = "INSERT INTO request(username, tool_barcode, status, date_required, duration) VALUES (?, ?, ?, ?, ?);";
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 java.sql.Date sql_date_required = new java.sql.Date(sdf.parse(date_required).getTime());

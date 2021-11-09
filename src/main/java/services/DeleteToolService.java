@@ -28,7 +28,7 @@ public class DeleteToolService {
 
             // Do something with the database....
 
-            String query = "delete from tool_app.tool where barcode = ? AND owner = ? AND shareable = TRUE;";
+            String query = "delete from tool where barcode = ? AND owner = ? AND shareable = TRUE;";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, barcode);

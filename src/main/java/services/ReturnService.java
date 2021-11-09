@@ -19,7 +19,7 @@ public class ReturnService {
             int assigned_port = session.setPortForwardingL(DatabaseConnection.LPORT, "localhost", DatabaseConnection.RPORT);
             conn = DatabaseConnection.createConnection(assigned_port);
 
-            String query = "select * from tool_app.request where request_id = (?) AND username = (?) AND status = 'Accepted'";
+            String query = "select * from request where request_id = (?) AND username = (?) AND status = 'Accepted'";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, Integer.parseInt(requestID));
@@ -32,7 +32,7 @@ public class ReturnService {
                 System.out.println("User cannot return this request");
             }
             else{
-                String query2 = "update tool_app.request set date_returned = (?), status = (?) " +
+                String query2 = "update request set date_returned = (?), status = (?) " +
                         "where request_id = (?)";
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -47,7 +47,7 @@ public class ReturnService {
                 statement2.setInt(3, Integer.parseInt(requestID));
                 boolean result2 = statement2.execute();
 
-                String query3 = "update tool_app.tool set shareable = true from tool_app.request where request.tool_barcode = tool.barcode AND request.request_id = (?)";
+                String query3 = "update tool set shareable = true from request where request.tool_barcode = tool.barcode AND request.request_id = (?)";
                 PreparedStatement statement3 = conn.prepareStatement(query3);
                 statement3.setInt(1, Integer.parseInt(requestID));
                 boolean result3 = statement3.execute();

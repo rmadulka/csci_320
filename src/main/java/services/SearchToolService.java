@@ -65,9 +65,9 @@ public class SearchToolService {
                 orderByArgumentClause = "category_name";
             }
 
-            String query = "select barcode, name, description, purchase_date, purchase_price, shareable, owner,  category_name from tool_app.tool\n" +
-                    "left join tool_app.category_tool on barcode = category_tool.tool_barcode\n" +
-                    "left join tool_app.category on category_tool.category_id = category.category_id WHERE Lower(" + searchMethod + ") LIKE ? order by " + orderByArgumentClause + " " + orderByClause + ";";
+            String query = "select barcode, name, description, purchase_date, purchase_price, shareable, owner,  category_name from tool\n" +
+                    "left join category_tool on barcode = category_tool.tool_barcode\n" +
+                    "left join category on category_tool.category_id = category.category_id WHERE Lower(" + searchMethod + ") LIKE ? order by " + orderByArgumentClause + " " + orderByClause + ";";
 
 
 

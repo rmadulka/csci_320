@@ -23,7 +23,7 @@ public class LoginService {
 
             // Do something with the database....
 
-            String query = "SELECT * FROM tool_app.\"user\" WHERE tool_app.\"user\".username = (?) AND tool_app.\"user\".password = (?);";
+            String query = "SELECT * FROM \"user\" WHERE \"user\".username = (?) AND \"user\".password = (?);";
 
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
@@ -36,7 +36,7 @@ public class LoginService {
                 return null;
             }
 
-            String updateLastAccessDate = "UPDATE tool_app.\"user\"\n" +
+            String updateLastAccessDate = "UPDATE \"user\"\n" +
                     "SET last_access_date = current_date\n" +
                     "WHERE username = (?)";
 

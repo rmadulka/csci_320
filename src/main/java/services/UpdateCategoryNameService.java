@@ -20,7 +20,7 @@ public class UpdateCategoryNameService {
 
             // Do something with the database....
 
-            String query = "Update tool_app.category\n" +
+            String query = "Update category\n" +
                     "Set category_name = (?) " +
                     "Where category_id = (?)";
 

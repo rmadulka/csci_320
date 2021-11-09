@@ -26,7 +26,7 @@ public class ViewAvailableService {
             conn = DatabaseConnection.createConnection(assigned_port);
 
             // Do something with the database....
-            String query = "select barcode, name, description, purchase_date, purchase_price, shareable from (select * from tool_app.tool order by name asc) as x where shareable = true";
+            String query = "select barcode, name, description, purchase_date, purchase_price, shareable from (select * from tool order by name asc) as x where shareable = true";
 
             PreparedStatement statement = conn.prepareStatement(query);
 

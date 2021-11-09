@@ -24,7 +24,7 @@ public class RegisterService {
             conn = DatabaseConnection.createConnection(assigned_port);
 
             // Do something with the database....
-            String query = "INSERT INTO tool_app.\"user\"(username, password, email, first_name, last_name, creation_date, last_access_date)\n" +
+            String query = "INSERT INTO \"user\"(username, password, email, first_name, last_name, creation_date, last_access_date)\n" +
                     "VALUES\n" +
                     "    (?, ?, ?, ?, ?, current_date, current_date);";
             PreparedStatement statement = conn.prepareStatement(query);

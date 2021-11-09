@@ -36,7 +36,7 @@ public class AcceptRequestService {
                 System.out.println("User has no requests or tool is not shareable");
             }
             else{
-                String query2 = "update tool_app.request\n "  + "set status = ?, date_responded = current_date,  date_needed_return = ?" + " where request_id = ? ;";
+                String query2 = "update request\n "  + "set status = ?, date_responded = current_date,  date_needed_return = ?" + " where request_id = ? ;";
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 java.sql.Date sql_date_needed_returned = new java.sql.Date(sdf.parse(date_needed_returned).getTime());
@@ -51,7 +51,7 @@ public class AcceptRequestService {
 
                 boolean result2 = statement2.execute();
 
-                String query3 = "update tool_app.tool set shareable = false from tool_app.request where request.tool_barcode = tool.barcode AND request.request_id = (?);";
+                String query3 = "update tool set shareable = false from request where request.tool_barcode = tool.barcode AND request.request_id = (?);";
                 PreparedStatement statement3 = conn.prepareStatement(query3);
                 statement3.setInt(1, Integer.parseInt(requestID));
                 boolean result3 = statement3.execute();

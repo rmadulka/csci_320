@@ -28,7 +28,7 @@ public class AddToolService {
 
             // Do something with the database....
 
-            String query = "INSERT INTO tool_app.tool(barcode, name, description, purchase_date, purchase_price, shareable, owner) VALUES (?, ?, ?, ?, ?, ?, ?);";
+            String query = "INSERT INTO tool(barcode, name, description, purchase_date, purchase_price, shareable, owner) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             java.sql.Date sqlPurchaseDate = new java.sql.Date(sdf.parse(purchaseDate).getTime());
