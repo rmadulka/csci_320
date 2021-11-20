@@ -198,6 +198,18 @@ public class Main {
 				} else {
 					ViewLentService.viewLent(loginSession.getUsername());
 				}
+			} else if(command.equals("viewTop10Lent")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewTopTenLent.viewTopTenLent(loginSession.getUsername());
+				}
+			} else if(command.equals("viewTop10Borrowed")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					ViewTopTenBorrowed.viewTopTenBorrowed(loginSession.getUsername());
+				}
 			} else if(command.equals("logout")) {
 				loginSession = null;
 				System.out.println("logged out");
