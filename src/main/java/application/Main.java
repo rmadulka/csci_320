@@ -198,6 +198,12 @@ public class Main {
 				} else {
 					ViewLentService.viewLent(loginSession.getUsername());
 				}
+			} else if(command.equals("dashboard")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					DashboardService.dashboard(loginSession.getUsername());
+				}
 			} else if(command.equals("viewTop10Lent")) {
 				if (loginSession == null) {
 					System.out.println("Please Login");
