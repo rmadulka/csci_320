@@ -210,7 +210,16 @@ public class Main {
 				} else {
 					ViewTopTenBorrowed.viewTopTenBorrowed(loginSession.getUsername());
 				}
-			} else if(command.equals("logout")) {
+			}
+			else if(command.equals("recommend")) {
+				if (loginSession == null) {
+					System.out.println("Please Login");
+				} else {
+					cmd = parser.parse(RecommendTools.recommendTools(), arguments);
+					RecommendationService.recommendedTools(loginSession.getUsername(),
+							cmd.getOptionValue("barcode"));
+				}
+			}else if(command.equals("logout")) {
 				loginSession = null;
 				System.out.println("logged out");
 			}
