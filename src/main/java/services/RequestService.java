@@ -58,7 +58,9 @@ public class RequestService {
                 boolean result = statement.execute();
 
                 System.out.println("Request sent");
+                System.out.println("Users who requested this tool also requested:");
 
+                RecommendationService.recommendToolsHelper(conn, barcode);
             }
 
         } catch (Exception e) {

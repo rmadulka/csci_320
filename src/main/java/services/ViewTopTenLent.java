@@ -52,7 +52,7 @@ public class ViewTopTenLent {
             if (!result.next()) {
                 System.out.println("No available tools");
             } else {
-                System.out.format(FORMAT, "rank", "percentage borrowed", "barcode", "name", "description", "purchaseDate", "purchasePrice", "shareable");
+                System.out.format(FORMAT, "rank", "percentage lent", "barcode", "name", "description", "purchaseDate", "purchasePrice", "shareable");
                 System.out.println();
                 do {
                     String rank = result.getString("ranking");
